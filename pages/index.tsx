@@ -5,9 +5,11 @@ import dynamic from 'next/dynamic'
 import { useEffect, useState } from "react"
 import useSWR from 'swr'
 
-export const getStaticProps = async (ip) => {
+import {IPProvider}  from "../providers/IPProvider"
+
+export const getStaticProps = async () => {
 	const { props } = await GetClientIP()
-	const infoIP = await GetIPInfo(ip)
+	const infoIP = await GetIPInfo(props.clientIP)
 	return infoIP
 }
 export default function Home({infoIP}) {
@@ -20,12 +22,13 @@ export default function Home({infoIP}) {
 	)
 	return (
 		<>
-			<h1>IP ADDRESS TRACKER</h1>
-			<h2>{infoIP.ip}</h2>
-			
-			<SearchBar query=""></SearchBar>
-			<IPInfo></IPInfo>
-			<Map />
+			<IPProvider>
+				<h1>IP ADDRESS TRACKER</h1>
+				<h2>{infoIP.ip}</h2>
+				<SearchBar></SearchBar>
+				<IPInfo></IPInfo>
+				<Map />
+			</IPProvider>
 		</>
 	)
 }
