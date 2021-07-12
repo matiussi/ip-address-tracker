@@ -1,22 +1,45 @@
-import React from 'react'
-import {useIP} from '../providers/IPProvider'
+import { GetClientIP, GetIPInfo} from '../pages/api/api'
+import React, { useContext, useState } from 'react'
+import IPContext from '../context/ip/context'
+import { GetStaticProps } from 'next'
 
-interface SearchBarProps {}
 
-const SearchBar: React.SFC<SearchBarProps> = () => {
+export const getStaticProps: GetStaticProps = async () => {
+	const { state } = useContext(IPContext)
+	const response = await GetIPInfo(state.ip)
+	return response
 	
-	const  {IP, setIP} = useIP()
+}
+type ipType ={
+	ip: string
+}
+const SearchBar: React.FC = () => {
+	
+	const [ip, setIp] = useState<string>()
+	
+	const { state, setState: setGlobalState } = useContext(IPContext)
 
-	const handleChange = (e) =>{
-		
+	const handleClick = () =>{
+		console.log("click", state)
+		setGlobalState({
+			ip: ip,
+			location: state.location,
+			isp: state.isp
+		})
 	}
 	return (
 		<>
-			<input 
+			<h1>{ip}</h1>
+			<p>{state.ip}</p>
+			<p>{state.isp}</p>
+			<input
+				type="text"
 				placeholder="Search for any IP address or domain" 
-				onChange={(e) => handleChange(e)}
-				
+				onChange={(e) => setIp(e.target.value)}
 			/>
+			<button onClick={() => handleClick()}>
+				Confirm
+			</button>
 		</>
 	);
 }

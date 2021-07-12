@@ -1,34 +1,47 @@
 import SearchBar from "../components/SearchBar"
-import IPInfo from "../components/IPInfo"
+import Info from "../components/IPInfo"
 import { GetClientIP, GetIPInfo} from '../pages/api/api'
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from "react"
-import useSWR from 'swr'
+import { useContext, useEffect, useState } from "react"
+import GlobalContext from "../context"
+import IPContext from "../context/ip/context"
+import { GetStaticProps } from "next"
+import axios from 'axios'
+import IPData from "../types/IPData"
 
-import {IPProvider}  from "../providers/IPProvider"
-
-export const getStaticProps = async () => {
+//Getting the client IP on the first page load
+export const getStaticProps: GetStaticProps = async () => {
 	const { props } = await GetClientIP()
-	const infoIP = await GetIPInfo(props.clientIP)
-	return infoIP
+	const response = await GetIPInfo(props.clientIP)
+	return response
 }
-export default function Home({infoIP}) {
+export const Home: React.FunctionComponent<IPData> = (props: IPData) => {
 
-	const [IP, setIP] = useState(null)
+	const {setState: setGlobalState } = useContext(IPContext)
+	console.log('props', {props})
 	
+		setGlobalState(
+			{
+				ip: props.ip,
+				location: props.location,
+				isp: props.isp
+			}
+		)
+	
+
 	const Map = dynamic(
 		() => import('../components/Map'), // replace '@components/map' with your component's location
 		{ ssr: false } // This line is important. It's what prevents server-side render
 	)
 	return (
 		<>
-			<IPProvider>
+			<GlobalContext>
 				<h1>IP ADDRESS TRACKER</h1>
-				<h2>{infoIP.ip}</h2>
 				<SearchBar></SearchBar>
-				<IPInfo></IPInfo>
+				<Info></Info>
 				<Map />
-			</IPProvider>
+			</GlobalContext>
 		</>
 	)
 }
+export default Home

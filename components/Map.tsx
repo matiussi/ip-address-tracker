@@ -1,9 +1,14 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
-import "leaflet-defaulticon-compatibility";
+import "leaflet-defaulticon-compatibility"
+import IPContext from '../context/ip/context'
+import React, {useContext} from 'react'
 
 const Map = () => {
+
+	const { state } = useContext(IPContext)
+
 	return (
 		<MapContainer center={[40.8054, -74.0241]} zoom={14} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
 			<TileLayer
