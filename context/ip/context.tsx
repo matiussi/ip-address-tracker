@@ -17,7 +17,9 @@ const DEFAULT_VALUE = {
 			city: '',
 			lat: 0,
 			lng: 0,
+			postalCode: '',
 			timezone: '',
+			geonameID: 0
 		},
 		isp:''
 	},

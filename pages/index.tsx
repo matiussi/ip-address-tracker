@@ -15,20 +15,34 @@ export const getStaticProps: GetStaticProps = async () => {
 	const response = await GetIPInfo(props.clientIP)
 	return response
 }
+
 export const Home: React.FunctionComponent<IPData> = (props: IPData) => {
 
 	const {setState: setGlobalState } = useContext(IPContext)
-	console.log('props', {props})
-	
-		setGlobalState(
-			{
-				ip: props.ip,
-				location: props.location,
-				isp: props.isp
-			}
-		)
-	
 
+	const [dataFetched, setDataFetched] = useState<IPData>({
+		ip: '',
+		location: {
+			country: '',
+			region: '',
+			city: '',
+			lat: 0,
+			lng: 0,
+			postalCode: '',
+			timezone: '',
+			geonameID: 0
+		},
+		isp: ''
+	})
+
+	console.log('props', {props})
+
+	useEffect(() =>{
+		if(props){
+			setGlobalState(props)
+		}
+	},[])
+	
 	const Map = dynamic(
 		() => import('../components/Map'), // replace '@components/map' with your component's location
 		{ ssr: false } // This line is important. It's what prevents server-side render

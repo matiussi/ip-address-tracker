@@ -7,10 +7,10 @@ const Info: React.FC = () => {
    const {state} = useContext(IPContext)
    return ( 
       <>
-         <h1>{state.ip}</h1>
-         <p>city{state.location.city}</p>
+         <h1>Context InfoIP {state.ip}</h1>
+         {/* <p>city{state.location.city}</p>
          <p>country{state.location.country}</p>
-         <p>timezone{state.location.timezone}</p>
+         <p>timezone{state.location.timezone}</p> */}
       </> 
    );
 }

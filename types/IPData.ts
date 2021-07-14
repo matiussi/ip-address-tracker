@@ -1,14 +1,16 @@
 type IPData = {
    ip: string,
-   location:{
+   location?:{
       country: string,
       region: string,
       city: string,
       lat: number,
       lng: number,
-      timezone: string
+      postalCode: string,
+      timezone: string,
+      geonameID: number
    }
-   isp: string
+   isp?: string
 }
 
 export default IPData
