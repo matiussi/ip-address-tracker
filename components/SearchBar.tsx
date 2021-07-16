@@ -1,4 +1,4 @@
-import { GetClientIP, GetIPInfo } from '../pages/api/api'
+// import { GetClientIP, GetIPInfo } from '../pages/api/api'
 import React, { useContext, useEffect, useState } from 'react'
 import IPContext from '../context/ip/context'
 import useSWR from 'swr'
@@ -19,72 +19,39 @@ const fetcher = async (url) => {
 }
 const SearchBar: React.FC = () => {
 
-	const [ip, setIp] = useState<string>()
+	const [ip, setIp] = useState<string>('')
 	const { state, setState: setGlobalState } = useContext(IPContext)
 	const [shouldFetch, setShouldFetch] = useState(false)
-
-	const [dataFetched, setDataFetched] = useState<IPData>({
-		ip: '',
-		location: {
-			country: '',
-			region: '',
-			city: '',
-			lat: 0,
-			lng: 0,
-			postalCode: '',
-			timezone: '',
-			geonameID: 0
-		},
-		isp: ''
-	})
-
-	
 
 	const { data } = useSWR(shouldFetch ? ip : null, fetcher, {
 		onSuccess: (data, key, config) => {
 			console.log({ data })
 		}
 	})
-	if(data){
-		setShouldFetch(false)
-		setGlobalState(data)
-	}
-
-	// console.log('Data useSWR:', letData)
+	
+	useEffect(() =>{
+		if(data){
+			setShouldFetch(false)
+			setGlobalState(data)
+		}
+	})
 
 	const handleClick = () => {
 		setShouldFetch(true)
 	}
-	
-	const showInfo = () =>{
-		if(state.ip.length > 0){
-			return (
-				<>
-					<h1>Estado IP {ip}</h1>
-					<p>Estado Contexto {state.ip}</p>
-					<p>ISP {state.isp}</p>
-				</>	
-			)
-		}
-		return <h1>Loading...</h1>
+	const onChangeHandler = event =>{
+		setIp(event.target.value)
 	}
 	return (
 		<>
-			{showInfo()}
-			
 			<input
+				required
+				value={ip}
 				type="text"
 				placeholder="Search for any IP address or domain"
-				onChange={(e) => setIp(e.target.value)}
+				onChange={(e) => onChangeHandler(e)}
 			/>
-			<button onClick={() => {handleClick();
-			// setGlobalState(
-			// 	{
-			// 		ip: dataFetched.ip,
-			// 		location: dataFetched.location,
-			// 		isp: dataFetched.isp
-			// 		})
-				}}>
+			<button onClick={() => {handleClick()}}>
 				Confirm
 			</button>
 		</>
