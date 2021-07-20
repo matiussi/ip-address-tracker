@@ -7,7 +7,7 @@ export const fetchClientIP = async () =>{
 	return json
 }
 export const fetchIPData = async (clientIP: string) => {
-	const res = await fetch("https://geo.ipify.org/api/v1?apiKey=at_DbvZDYuR9Yd5TTdgeXkp6Yj3nK6Dp&domain=" + clientIP)
+	const res = await fetch("https://geo.ipify.org/api/v1?apiKey=at_cqCnjuhpCONY5pwifhB8ZlFj2hNnG&domain=" + clientIP)
 	const json = await res.json()
 	return json
 }

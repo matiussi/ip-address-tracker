@@ -1,0 +1,73 @@
+@import '/styles/general/fonts';
+@import '/styles/general/variables';
+@import '/styles/general/typography';
+@import '/styles/general/mixins';
+
+
+@import '/styles/components/searchBar';
+@import '/styles/components/ipInfo';
+
+
+html, body {
+	padding: 0;
+	margin: 0;
+	font-family: 'Rubik', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+#__next{
+	height: 100vh;
+}
+.content{
+	@include flexContent(center, center, row);
+	flex-wrap: wrap;
+	position: relative;
+}
+// IMPORTANT! Do not forget to set the map width and height
+.leaflet-container {
+	width: 100%;
+	height: 70vh;
+	z-index: 1
+ }
+.background{
+	background-image: url('../public/img/pattern-bg.png');
+	background-size: cover;
+	width: 100%;
+	height: 40vh;
+}
+.floating{
+	height: auto;
+	width: 100%;
+	@include flexContent(center, center, column);
+	z-index: 3;
+	position: absolute;
+	top: 0;
+	& > .title, .search-bar {
+		margin-bottom: 2rem;
+	}
+}
+.rounded-border{
+	border-radius: 2em;
+}
+
+ul, li{
+	list-style: none;
+} 
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+@media screen  and (min-width: 900px){
+	.floating{
+		& > .search-bar {
+			margin-bottom: 3vw;
+		}
+	}
+	.background{
+		height: 30vh;
+	}
+}

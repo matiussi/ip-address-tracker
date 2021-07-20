@@ -1,0 +1,16 @@
+@mixin flexContent($align, $justify, $direction) {
+   display: flex;
+   align-items: $align;
+   justify-content: $justify;
+   flex-direction: $direction;
+}
+@mixin divider() {
+   content: "";
+   position: absolute;
+   right: 0;
+   top: 20%;
+   height: 60%;
+   width: 50%;
+   border-right: $title-info-color 1px solid;
+   opacity: 0.5;
+}

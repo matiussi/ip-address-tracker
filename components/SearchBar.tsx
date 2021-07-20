@@ -1,60 +1,54 @@
-// import { GetClientIP, GetIPInfo } from '../pages/api/api'
 import React, { useContext, useEffect, useState } from 'react'
 import IPContext from '../context/ip/context'
 import useSWR from 'swr'
-import axios from 'axios'
-import IPData from '../types/IPData'
+import ipValidation from 'is-ip'
+import domainValidation from 'is-valid-domain'
+import {fetchIPData} from '../pages/api/api'
+import icon from '../public/img/icon-arrow.svg'
 
-// export const getStaticProps: GetStaticProps = async () => {
-// 	const { state } = useContext(IPContext)
-// 	const response = await GetIPInfo(state.ip)
-// 	return response
-
-// }
-
-const fetcher = async (url) => {
-	const res = await fetch("https://geo.ipify.org/api/v1?apiKey=at_DbvZDYuR9Yd5TTdgeXkp6Yj3nK6Dp&domain=" + url)
-	const json = await res.json()
-	return json
-}
 const SearchBar: React.FC = () => {
 
 	const [ip, setIp] = useState<string>('')
-	const { state, setState: setGlobalState } = useContext(IPContext)
-	const [shouldFetch, setShouldFetch] = useState(false)
+	const [inputError, setinputError] = useState<boolean>(false)
+	const [shouldFetch, setShouldFetch] = useState<boolean>(false)
+	const { setState: setGlobalState } = useContext(IPContext)
 
-	const { data } = useSWR(shouldFetch ? ip : null, fetcher, {
-		onSuccess: (data, key, config) => {
-			console.log({ data })
-		}
-	})
-	
+	const { data } = useSWR(shouldFetch ? ip : null, fetchIPData)
+
 	useEffect(() =>{
 		if(data){
 			setShouldFetch(false)
 			setGlobalState(data)
 		}
-	})
+	}, [data, setGlobalState])
 
 	const handleClick = () => {
-		setShouldFetch(true)
+		if(ipValidation(ip) || domainValidation(ip)){
+			setShouldFetch(true)
+			setinputError(false)
+		}else{
+			setShouldFetch(false)
+			setinputError(true)
+			setIp('')
+		}
 	}
 	const onChangeHandler = event =>{
 		setIp(event.target.value)
 	}
 	return (
-		<>
+		<div className="search-bar">
 			<input
+				className={inputError ? "search-bar-input input-input-error" : "search-bar-input"}
 				required
 				value={ip}
 				type="text"
-				placeholder="Search for any IP address or domain"
+				placeholder={inputError ? 'Invalid IP address or domain' : 'Search for any IP address or domain'}
 				onChange={(e) => onChangeHandler(e)}
 			/>
-			<button onClick={() => {handleClick()}}>
-				Confirm
+			<button className="button" onClick={() => {handleClick()}}>
+				<img src='/img/icon-arrow.svg' alt="Search for this IP or domain"/>
 			</button>
-		</>
+		</div>
 	);
 }
 

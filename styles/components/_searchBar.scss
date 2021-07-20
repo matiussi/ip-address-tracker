@@ -1,0 +1,45 @@
+.search-bar{
+   height: 4em;
+   overflow: hidden;
+   width: 85%;
+   @include flexContent(center, center, row);
+   border-radius: 1em;
+}
+.search-bar-input{
+   height: 100%;
+   flex-grow: 1;
+   border: none;
+   cursor: pointer;
+   padding: 1em;
+}
+
+.button{
+   border: none;
+   background: none;
+   background-color: $main-color;
+   height: 100%;
+   padding: 2em;
+   cursor: pointer;
+   &:hover{
+      background-color: $title-info-color;
+   }
+   img{
+      width: 100%;
+   }
+}
+
+@media screen and (min-width: 900px) {
+   
+   .search-bar{
+      width: 40%;
+      height: max(4em, 4vw);
+      border-radius: 1vw;
+   }
+   .button{
+      padding: 2vw 1.5vw 2vw 1.5vw;
+      @include flexContent(center, center, row);
+      img{
+         width: 1vw;
+      }
+   }
+}
