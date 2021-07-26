@@ -1,6 +1,6 @@
 import { IPContextProvider } from "./ip/context"
 
-const GlobalContext: React.FunctionComponent = ({ children }) =>{
+const GlobalContext: React.FC = ({ children }) =>{
    return (
       <>
          <IPContextProvider>{children}</IPContextProvider>

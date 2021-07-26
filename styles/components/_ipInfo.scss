@@ -1,10 +1,8 @@
 .info-container{
    background-color: #fff;
    z-index: 3;
-   padding: 0;
    width: 85%;
    border-radius: 1em;
-   margin-bottom: 0;
    -webkit-box-shadow: 5px 12px 22px -8px rgba(0,0,0,0.52); 
    box-shadow: 5px 12px 22px -8px rgba(0,0,0,0.52);
 }
@@ -20,14 +18,14 @@
 @media screen and (min-width: 900px) {
    .info-container{
       flex-direction: row;
-      width: 70%;
+      width: 80%;
       border-radius: 1vw;
    }
    .info-wrapper{
       flex-direction: row;
       align-items: stretch;
-      padding: 1vw 0 .5vw 0;
-      justify-content:space-around;
+      padding: 1vw 0 1vw 0;
+      // margin: 1vw 0 .5vw   0;
       & > :nth-child(4){
          border-right: none;
       }

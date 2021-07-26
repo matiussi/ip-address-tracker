@@ -1,7 +1,7 @@
 import React, {createContext, useState} from "react"
 import IPData from '../../types/IPData'
 
-//Type for Props context
+//Types for Props context
 type PropsIPContext ={
 	state: IPData,
 	setState: React.Dispatch<React.SetStateAction<IPData>>
@@ -29,13 +29,7 @@ const DEFAULT_VALUE = {
 //Creating the context for IPContext
 const IPContext = createContext<PropsIPContext>(DEFAULT_VALUE)
 
-/*
-	Function that contains the state and
-	the function the will change the state 'setState'
-	that will provide the context for the children components 
-
-*/
-
+//Creating a custom provider
 const IPContextProvider: React.FC = ({children}) =>{
 	const [state, setState] = useState(DEFAULT_VALUE.state)
 

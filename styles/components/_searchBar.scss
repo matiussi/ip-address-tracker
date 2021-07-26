@@ -1,5 +1,5 @@
 .search-bar{
-   height: 4em;
+   height: 3.5em;
    overflow: hidden;
    width: 85%;
    @include flexContent(center, center, row);
@@ -10,7 +10,7 @@
    flex-grow: 1;
    border: none;
    cursor: pointer;
-   padding: 1em;
+   padding: 1em .5em 1em 1em;
 }
 
 .button{
@@ -18,8 +18,9 @@
    background: none;
    background-color: $main-color;
    height: 100%;
-   padding: 2em;
+   padding: 2em 1.5em 2em 1.5em;
    cursor: pointer;
+   @include flexContent(center, center, row);
    &:hover{
       background-color: $title-info-color;
    }
@@ -32,12 +33,11 @@
    
    .search-bar{
       width: 40%;
-      height: max(4em, 4vw);
+      height: 3.7vw;
       border-radius: 1vw;
    }
    .button{
       padding: 2vw 1.5vw 2vw 1.5vw;
-      @include flexContent(center, center, row);
       img{
          width: 1vw;
       }

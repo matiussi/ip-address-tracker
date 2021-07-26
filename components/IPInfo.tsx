@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState, useRef } from 'react'
+import React, { useContext, useEffect, useState} from 'react'
 import IPContext from '../context/ip/context'
-import IPData from "../types/IPData"
 import {fetchClientIP, fetchIPData} from '../pages/api/api'
 
 
@@ -9,8 +8,8 @@ const Info: React.FC = () => {
    const {state, setState} = useContext(IPContext)
    const [ip, setIP] = useState<string>('')
 
+   //Getting the client IP, using the useEffect Hook with an empty array "[]" to only execute on the first render
 	useEffect(() =>{
-     //Getting the client ip for the first render
 		const getIP = async () =>{
          try{
             const response = await fetchClientIP()
@@ -22,17 +21,17 @@ const Info: React.FC = () => {
 		}
 		getIP()
 	},[])
-   //Getting the client ip data for the first render
+   //Getting the client IP data, only runs on the first render
    useEffect(() =>{
 		const getIPData = async () =>{
          try{
             const ipData = await fetchIPData(ip)
             setState(ipData)
+            console.log('ipdata ', ipData)
          }catch(e){
             console.log(e)
          }
 		}
-      
 		getIPData()
    },[])
    
@@ -65,7 +64,7 @@ const Info: React.FC = () => {
 		}
 		return (
          <div className="info-container">
-            <h2 className="loading">Loading...</h2>
+            <p className="loading">Loading... If the information is not displayed, try disabling AD Block.</p>
          </div>
       )
 	}

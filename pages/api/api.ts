@@ -1,5 +1,4 @@
-import axios from 'axios'
-import useSWR from 'swr'
+
 
 export const fetchClientIP = async () =>{
 	const response = await fetch('https://api.ipify.org?format=json')
@@ -7,7 +6,15 @@ export const fetchClientIP = async () =>{
 	return json
 }
 export const fetchIPData = async (clientIP: string) => {
-	const res = await fetch("https://geo.ipify.org/api/v1?apiKey=at_cqCnjuhpCONY5pwifhB8ZlFj2hNnG&domain=" + clientIP)
-	const json = await res.json()
-	return json
+	try{
+		const response = await fetch("https://geo.ipify.org/api/v1?apiKey=at_cqCnjuhpCONY5pwifhB8ZlFj2hNnG&domain=" + clientIP)
+		const ipData = await response.json()
+		console.log('api', ipData)
+		return ipData
+		
+	}catch(err){
+		console.log(err)
+	}
+	
 }
+

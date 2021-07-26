@@ -2,18 +2,19 @@ import SearchBar from "../components/SearchBar"
 import Info from "../components/IPInfo"
 import dynamic from 'next/dynamic'
 import GlobalContext from "../context"
+import Head from "../components/Head"
 
 
+export const Home: React.FC = () => {
 
-export const Home: React.FunctionComponent = () => {
-
-	
+	//Loading the Map 
 	const Map = dynamic(
-		() => import('../components/Map'), // replace '@components/map' with your component's location
+		() => import('../components/Map'), 
 		{ ssr: false } // This line is important. It's what prevents server-side render
 	)
 	return (
 		<>
+			<Head></Head>
 			<GlobalContext>
 				<main className="content">
 					<div className="background"></div>

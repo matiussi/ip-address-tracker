@@ -41,7 +41,7 @@ html, body {
 	z-index: 3;
 	position: absolute;
 	top: 0;
-	& > .title, .search-bar {
+	& > .search-bar {
 		margin-bottom: 2rem;
 	}
 }

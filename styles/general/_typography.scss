@@ -9,7 +9,7 @@ p{
    margin-top: 1em;
 }
 .search-bar-input{
-   font-size: clamp(18px, 1.5vw, 1.5vw);
+   font-size: clamp(18px, 1.3vw, 1.3vw);
    font-weight: 400;
 
    &::-webkit-input-placeholder{
@@ -36,8 +36,7 @@ p{
 }
 .info-value{
    font-weight: 500;
-   font-size: clamp(1.3em, 1.7vw, 2vw);
-   margin-bottom: 1em;
+   font-size: clamp(1.3em, 1.8vw, 2vw);
 }
 .info-block{
    text-align: center;
@@ -45,6 +44,7 @@ p{
 .loading{
    text-align: center;
    color: $title-info-color;
+   padding: 2em;
 }
 @media screen and (min-width: 900px) {
    .info-block{
