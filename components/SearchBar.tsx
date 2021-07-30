@@ -1,52 +1,84 @@
 import React, { useContext, useEffect, useState } from 'react'
-import IPContext from '../context/ip/context'
 import useSWR from 'swr'
 import ipValidation from 'is-ip'
 import domainValidation from 'is-valid-domain'
-import {fetchIPData} from '../pages/api/api'
+import {fetchGeolocationData} from '../pages/api/api'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { useGeolocation } from '../context/geolocation/context'
+import { useLoading } from '../context/loading/context'
 
 const SearchBar: React.FC = () => {
 
 	const [ip, setIp] = useState<string>('')
 	// const [inputError, setinputError] = useState<boolean>(false)
 	const [shouldFetch, setShouldFetch] = useState<boolean>(false)
-	const { setState: setGlobalStateIP } = useContext(IPContext)
+
+	const { setGeolocation } = useGeolocation()
+	const {loading, setLoading} = useLoading()
+
 	
 	const notify = () =>{
 		toast.error("Invalid IP address or domain!", {
 			position: toast.POSITION.TOP_CENTER
 		 })
 	} 
-
+	
 	//Using SWR Hook and conditionally fetching data to avoid unecessary requests
 	//The state "shouldFetch" is used to control when the data fetching should occur
-	const { data, error } = useSWR(shouldFetch ? ip : null, fetchIPData)
+	const { data } = useSWR(shouldFetch ? ip : null, fetchGeolocationData, {
+		onSuccess: (data, key, config) =>{
+			setLoading({
+				status: true,
+				message: 'Loading. Please wait.'
+			})
+		},
+		onError: (data,key,config) =>{
+			setLoading({
+				status: false
+			})
+		}
+	})
 
 	//useEffect is use to check when the fetched data have changed
 	//If the object data has content means the request was successfull, then pass the data content to the global state
 	useEffect(() =>{
+		
+		console.log('data value', data)
+		console.log('loading', loading.status)
 		if(data){
 			if(data.code >= 400 && data.code <= 600){
-				notify()
+				console.log('error 400', data)
+				setShouldFetch(false)
+				setLoading({
+					status: false
+				})
+				
 			}else{
 				setShouldFetch(false)
-				setGlobalStateIP(data)
+				setTimeout(() =>{
+					setGeolocation(data)
+					setLoading({
+						status: false
+					})
+				}, 2000)
 			}
+			
+		}else{
+			
 		}
-	}, [data, setGlobalStateIP])
+		
+	}, [data])
 
 	const handleClick = () => {
 		if(ipValidation(ip) || domainValidation(ip)){
 			setShouldFetch(true)
-			// setinputError(false)
-			
 		}else{
+			setIp('')
 			setShouldFetch(false)
 			// setinputError(true)
-			setIp('')
-			notify()
+			
 		}
 	}
 	const onChangeHandler = event =>{

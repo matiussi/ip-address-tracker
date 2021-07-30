@@ -1,9 +1,10 @@
 import SearchBar from "../components/SearchBar"
 import Info from "../components/IPInfo"
 import dynamic from 'next/dynamic'
-import GlobalContext from "../context"
 import Head from "../components/Head"
 
+import { GeolocationContextProvider } from "../context/geolocation/context"
+import {LoadingContextProvider} from '../context/loading/context'
 
 export const Home: React.FC = () => {
 
@@ -15,17 +16,19 @@ export const Home: React.FC = () => {
 	return (
 		<>
 			<Head></Head>
-			<GlobalContext>
+			<GeolocationContextProvider>
 				<main className="content">
 					<div className="background"></div>
 					<div className="floating">
 						<h1 className="title">IP Address Tracker</h1>
+						<LoadingContextProvider>
 						<SearchBar></SearchBar>
 						<Info></Info>
+						</LoadingContextProvider>
 					</div>
 					<Map/>
 				</main>
-			</GlobalContext>
+			</GeolocationContextProvider>
 		</>
 	)
 }

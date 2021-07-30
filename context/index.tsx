@@ -1,9 +1,10 @@
-import { IPContextProvider } from "./ip/context"
+import { GeolocationContextProvider } from "./geolocation/context"
 
 const GlobalContext: React.FC = ({ children }) =>{
    return (
       <>
-         <IPContextProvider>{children}</IPContextProvider>
+         <GeolocationContextProvider>{children}</GeolocationContextProvider>
+         
       </>
    )
 }
