@@ -35,4 +35,5 @@ export const LoadingContextProvider: React.FC = ({children}) =>{
 		</LoadingContext.Provider>
 	)
 }
+//Creating a custom hook
 export const useLoading = () => useContext(LoadingContext)

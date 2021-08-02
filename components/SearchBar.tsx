@@ -1,121 +1,103 @@
-import React, { useContext, useEffect, useState } from 'react'
-import useSWR from 'swr'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import ipValidation from 'is-ip'
 import domainValidation from 'is-valid-domain'
-import {fetchGeolocationData} from '../pages/api/api'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
+import icon from '../public/img/icon-arrow.svg'
 
 import { useGeolocation } from '../context/geolocation/context'
 import { useLoading } from '../context/loading/context'
 
 const SearchBar: React.FC = () => {
 
-	const [ip, setIp] = useState<string>('')
-	// const [inputError, setinputError] = useState<boolean>(false)
-	const [shouldFetch, setShouldFetch] = useState<boolean>(false)
-
+	/* 
+		To prevent multiple requests two states are used:
+			- "query" state is used to store the current input values (onChange);
+			- "search" state will be used as an API parameter;
+		When the button is clicked, "search" state will receive the current 
+		"query" value 
+	*/
+	const [query, setQuery] = useState<string>('')
+	const [search, setSearch] = useState<string>('')
+	
+	//Consuming the custom hooks
 	const { setGeolocation } = useGeolocation()
-	const {loading, setLoading} = useLoading()
-
+	const { setLoading } = useLoading()
 	
-	const notify = () =>{
-		toast.error("Invalid IP address or domain!", {
-			position: toast.POSITION.TOP_CENTER
-		 })
-	} 
-	
-	//Using SWR Hook and conditionally fetching data to avoid unecessary requests
-	//The state "shouldFetch" is used to control when the data fetching should occur
-	const { data } = useSWR(shouldFetch ? ip : null, fetchGeolocationData, {
-		onSuccess: (data, key, config) =>{
-			setLoading({
-				status: true,
-				message: 'Loading. Please wait.'
-			})
-		},
-		onError: (data,key,config) =>{
-			setLoading({
-				status: false
+	//Using toastify to display feedback messages
+	//https://fkhadra.github.io/react-toastify
+	const notify = (type: string) =>{
+		if(type === 'info'){
+			toast.info("Invalid IP address or domain!", {
+				position: toast.POSITION.TOP_CENTER
 			})
 		}
-	})
-
-	//useEffect is use to check when the fetched data have changed
-	//If the object data has content means the request was successfull, then pass the data content to the global state
+		if(type ==='error'){
+			toast.error("Oops an error ocurred. Please try again later.", {
+			position: toast.POSITION.TOP_CENTER
+			})
+		}
+	} 
+	
+	//Using useEffect hook to monitor the search state, whenever the button is clicked the search state will change
 	useEffect(() =>{
-		
-		console.log('data value', data)
-		console.log('loading', loading.status)
-		if(data){
-			if(data.code >= 400 && data.code <= 600){
-				console.log('error 400', data)
-				setShouldFetch(false)
+		//On the first render a notification was triggered,
+		 //to avoid it I needed to create this if (I dont' know if is the best solution)
+		if(search === ''){
+			return
+		}
+		const fetchData = async () =>{
+			
+			//Checking if the user has entered an IP or domain on the correct format
+			if(ipValidation(search) || domainValidation(search)){
+
+				//To provide a feedback for the user when the data is being fetched, a loading message is displayed
+				//If you want to use a loading, don't forget to use it outside the try/catch block, 
+				//otherwise your application will freeze when an error occurs
+				setLoading({
+					status: true,
+					message: `Getting the geoinformation of ${search}` 
+				})
+				
+				try{
+
+					//Fetching the data and storing it in the geolocation context
+					const response = await axios("https://geo.ipify.org/api/v1?apiKey=at_krM4GPgkgv21BrwYvo3fnQLkq48rY&domain=" + search)
+					setGeolocation(response.data)
+
+				}catch(e){
+					notify('error')
+				}
 				setLoading({
 					status: false
 				})
-				
+	
 			}else{
-				setShouldFetch(false)
-				setTimeout(() =>{
-					setGeolocation(data)
-					setLoading({
-						status: false
-					})
-				}, 2000)
+				notify('info')
 			}
-			
-		}else{
-			
 		}
-		
-	}, [data])
+		fetchData()
+	}, [search, setGeolocation, setLoading])
 
-	const handleClick = () => {
-		if(ipValidation(ip) || domainValidation(ip)){
-			setShouldFetch(true)
-		}else{
-			setIp('')
-			setShouldFetch(false)
-			// setinputError(true)
-			
-		}
-	}
-	const onChangeHandler = event =>{
-		setIp(event.target.value)
-	}
 	return (
 		<>
-		<div>
-        <ToastContainer
-			position="top-center"
-			autoClose={5000}
-			hideProgressBar={false}
-			newestOnTop={false}
-			closeOnClick
-			rtl={false}
-			pauseOnFocusLoss
-			draggable
-			pauseOnHover
-		   />
-      </div>
 		<div className="search-bar">
 			<input
-				// className={inputError ? "search-bar-input input-error" : "search-bar-input"}
 				className="search-bar-input"
 				required
-				value={ip}
+				value={query}
 				type="text"
-				// placeholder={inputError ? 'Invalid IP address or domain' : 'Search for any IP address or domain'}
 				placeholder='Search for any IP address or domain'
-				onChange={(e) => onChangeHandler(e)}
+				onChange={(e) => setQuery(e.target.value)}
 			/>
-			<button className="button" onClick={() => {handleClick()}}>
-				<img src='/img/icon-arrow.svg' alt="Search for this IP or domain"/>
+			<button className="button" onClick={() => setSearch(query)}>
+				<Image src={icon} alt="Search for this IP or domain"/>
 			</button>
 		</div>
 		</>
 	);
 }
 
-export default SearchBar;
+export default SearchBar

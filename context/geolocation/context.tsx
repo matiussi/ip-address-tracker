@@ -10,18 +10,18 @@ type PropsGeolocationContext ={
 //Context default values
 const DEFAULT_VALUE = {
 	geolocation:{
-		ip: '',
+		ip: '-',
 		location:{
-			country: '',
+			country: '-',
 			region: '',
 			city: '',
 			lat: 0,
 			lng: 0,
-			postalCode: '',
-			timezone: '',
+			postalCode: '-',
+			timezone: '-',
 			geonameID: 0
 		},
-		isp:''
+		isp:'-'
 	},
 	setGeolocation: () => {} //Intialing function
 }
@@ -30,7 +30,7 @@ const DEFAULT_VALUE = {
 const GeolocationContext = createContext<PropsGeolocationContext>(DEFAULT_VALUE)
 
 //Creating a custom provider
-const GeolocationContextProvider: React.FC = ({children}) =>{
+export const GeolocationContextProvider: React.FC = ({children}) =>{
 	const [geolocation, setGeolocation] = useState(DEFAULT_VALUE.geolocation)
 
 	return(
@@ -44,6 +44,6 @@ const GeolocationContextProvider: React.FC = ({children}) =>{
 		</GeolocationContext.Provider>
 	)
 }
-export {GeolocationContextProvider}
-export default GeolocationContext
+
+//Creating a custom hook
 export const useGeolocation = () => useContext(GeolocationContext)

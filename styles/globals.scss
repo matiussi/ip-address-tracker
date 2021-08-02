@@ -1,3 +1,5 @@
+
+@import '/styles/general/animations';
 @import '/styles/general/fonts';
 @import '/styles/general/variables';
 @import '/styles/general/typography';
@@ -5,7 +7,7 @@
 
 
 @import '/styles/components/searchBar';
-@import '/styles/components/ipInfo';
+@import '/styles/components/geolocationInfo';
 
 
 html, body {

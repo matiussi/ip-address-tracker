@@ -1,5 +1,5 @@
 import SearchBar from "../components/SearchBar"
-import Info from "../components/IPInfo"
+import Info from "../components/GeolocationInfo"
 import dynamic from 'next/dynamic'
 import Head from "../components/Head"
 
