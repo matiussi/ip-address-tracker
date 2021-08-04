@@ -8,7 +8,7 @@ import MapChildren from './MapChildren'
 const Map: React.FC = () => {
 
 	return (
-		<MapContainer center={[50.5, 30.5]} zoom={20}>
+		<MapContainer center={[50.5, 30.5]} zoom={17}>
 			{/* According to the documentation, the MapContainer props are immutable, 
 				the only way to change MapContainer is through its children*/}
       	<MapChildren />

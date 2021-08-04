@@ -1,9 +1,10 @@
 .search-bar{
-   height: 3.5em;
+   height: 8em;
    overflow: hidden;
    width: 85%;
    @include flexContent(center, center, row);
-   border-radius: 1em;
+   border-radius: 2.5em;
+   margin-bottom: 2rem;
 }
 .search-bar-input{
    height: 100%;
@@ -28,18 +29,19 @@
       width: 100%;
    }
 }
-
-@media screen and (min-width: 900px) {
-   
+@media screen and (min-width: 600px) {
    .search-bar{
-      width: 40%;
-      height: 3.7vw;
-      border-radius: 1vw;
+      width: 60%;
+   }
+}
+@media screen and (min-width: 1200px) {
+   .search-bar{
+      height: 9em;
+      width: 35%;
+      margin-bottom: 7em;
+      max-width: 70rem;
    }
    .button{
-      padding: 2vw 1.5vw 2vw 1.5vw;
-      img{
-         width: 1vw;
-      }
+      padding: 2em;
    }
 }

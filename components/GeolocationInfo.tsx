@@ -13,7 +13,7 @@ const Info: React.FC = () => {
    const { loading, setLoading } = useLoading()
 
    const notify = () =>{
-      toast.error("Oops an error ocurred. We couldn't get your geolocation information.", {
+      toast.error("Oops! An error occurred. We couldn't get your geolocation information.", {
 			position: toast.POSITION.TOP_CENTER
 		})
    }
@@ -43,6 +43,7 @@ const Info: React.FC = () => {
    }, [setGeolocation, setLoading])
 
   
+   //Displaying the geolocation or a loading message according the loading context
    const showInfo = () => {
       if (!loading.status) {
          return (

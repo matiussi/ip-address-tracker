@@ -22,7 +22,7 @@ const SearchBar: React.FC = () => {
 	const [query, setQuery] = useState<string>('')
 	const [search, setSearch] = useState<string>('')
 	
-	//Consuming the custom hooks
+	//Using the custom hooks
 	const { setGeolocation } = useGeolocation()
 	const { setLoading } = useLoading()
 	
@@ -35,7 +35,7 @@ const SearchBar: React.FC = () => {
 			})
 		}
 		if(type ==='error'){
-			toast.error("Oops an error ocurred. Please try again later.", {
+			toast.error("Oops! An error occurred. Please try again later.", {
 			position: toast.POSITION.TOP_CENTER
 			})
 		}
@@ -44,18 +44,18 @@ const SearchBar: React.FC = () => {
 	//Using useEffect hook to monitor the search state, whenever the button is clicked the search state will change
 	useEffect(() =>{
 		//On the first render a notification was triggered,
-		 //to avoid it I needed to create this if (I dont' know if is the best solution)
+		//to avoid it I needed to create this if (I dont' know if is the best solution)
 		if(search === ''){
 			return
 		}
 		const fetchData = async () =>{
 			
-			//Checking if the user has entered an IP or domain on the correct format
+			//Checking if the user has entered an IP address or domain in the correct format
 			if(ipValidation(search) || domainValidation(search)){
 
-				//To provide a feedback for the user when the data is being fetched, a loading message is displayed
+				//To provide a feedback to users, when the data is being fetched a loading message is displayed
 				//If you want to use a loading, don't forget to use it outside the try/catch block, 
-				//otherwise your application will freeze when an error occurs
+				//otherwise your application will freeze when a fetch  error occurs
 				setLoading({
 					status: true,
 					message: `Getting the geoinformation of ${search}` 
@@ -68,6 +68,7 @@ const SearchBar: React.FC = () => {
 					setGeolocation(response.data)
 
 				}catch(e){
+					//Displaying the toast message when an error occurs
 					notify('error')
 				}
 				setLoading({
@@ -75,11 +76,19 @@ const SearchBar: React.FC = () => {
 				})
 	
 			}else{
+				//Displaying the toast message when a invalid ip or domain is informed
 				notify('info')
 			}
 		}
 		fetchData()
 	}, [search, setGeolocation, setLoading])
+
+	//Setting the search state using the "Enter" key
+	const handleKeypress = (e) =>{
+		if(e.key === 'Enter'){
+			setSearch(query)
+		}
+	}
 
 	return (
 		<>
@@ -91,6 +100,7 @@ const SearchBar: React.FC = () => {
 				type="text"
 				placeholder='Search for any IP address or domain'
 				onChange={(e) => setQuery(e.target.value)}
+				onKeyPress={(e) => handleKeypress(e)}
 			/>
 			<button className="button" onClick={() => setSearch(query)}>
 				<Image src={icon} alt="Search for this IP or domain"/>

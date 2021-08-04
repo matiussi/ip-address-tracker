@@ -5,31 +5,31 @@ p{
 .title{
    color: #fff;
    font-weight: 500;
-   font-size: clamp(1.5em, 2.1vw, 2.1vw);
+   font-size: clamp(2.5rem, 2.5rem + 0.2vw, 4.75rem);
    margin-top: 1em;
 }
 .search-bar-input{
-   font-size: clamp(18px, 1.3vw, 1.3vw);
+   font-size: clamp(1.8rem, 1.6rem + 0.2vw, 3.528rem);
    font-weight: 400;
 
    &::-webkit-input-placeholder{
-      font-size: clamp(14px, 1.2vw, 1.5vw); 
+      font-size: clamp(1.4rem, 1.4rem + 0.2vw, 2.774rem); 
    }
    &::-moz-placeholder{
-      font-size: clamp(14px, 1.2vw, 1.5vw); 
+      font-size: clamp(1.4rem, 1.4rem + 0.2vw, 2.774rem);
    }
 }
 
 .info-title{
    color: $title-info-color;
    font-weight: 700;
-   font-size: clamp(.7em, .9vw, 1vw);
+   font-size: clamp(1.2rem, .9rem + 0.2vw,  2.352rem);
    margin: .7em 0;
    letter-spacing: .1em;
 }
 .info-value{
    font-weight: 500;
-   font-size: clamp(1.3em, 1.8vw, 2vw);
+   font-size: clamp(1.8rem, 2.2rem + 0.2vw, 4.5rem);
 }
 .info-block{
    text-align: center;
@@ -37,12 +37,13 @@ p{
 .loading{
    text-align: center;
    color: $title-info-color;
-   padding: 1em;
-   font-size: clamp(14px, 1.2vw, 1.5vw); 
+   padding: 5rem;
+   font-size: clamp(1.4em, 1.4rem + 0.2vw, 2.548rem);
 }
 @media screen and (min-width: 900px) {
    .info-block{
       text-align: left;
    }
 }
+
 

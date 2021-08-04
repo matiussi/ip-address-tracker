@@ -17,15 +17,18 @@ export const Home: React.FC = () => {
 		<>
 			<Head></Head>
 			<GeolocationContextProvider>
+				
 				<main className="content">
-					<div className="background"></div>
-					<div className="floating">
-						<h1 className="title">IP Address Tracker</h1>
-						<LoadingContextProvider>
-						<SearchBar></SearchBar>
-						<Info></Info>
-						</LoadingContextProvider>
+					<div className="background">
+						<div className="floating">
+							<h1 className="title">IP Address Tracker</h1>
+							<LoadingContextProvider>
+							<SearchBar></SearchBar>
+							<Info></Info>
+							</LoadingContextProvider>
+						</div>
 					</div>
+					
 					<Map/>
 				</main>
 			</GeolocationContextProvider>
