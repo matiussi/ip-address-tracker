@@ -30,8 +30,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://github.com/matiussi/ip-address-tracker)
-- Live Site URL: [Add live site URL here](https://matiussi-ip-address-tracker.netlify.app)
+- Solution URL: [https://github.com/matiussi/ip-address-tracker](https://github.com/matiussi/ip-address-tracker)
+- Live Site URL: [https://matiussi-ip-address-tracker.netlify.app](https://matiussi-ip-address-tracker.netlify.app)
 
 
 
